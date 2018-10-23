@@ -71,15 +71,20 @@ export default {
       this.flipCards(discardPile)
     },
     takeDiscardPile (player, discardPile) {
-      player.discardDeck.concat(discardPile)
+      player.discardDeck.push.apply(player.discardDeck, discardPile)
     },
     checkDeckSize (player) {
       if (player.deck.length > 0) {
-      } else if (player.discardDeck > 0 && player.deck.length === 0) {
-        player.deck.concat(player.discardDeck)
-        player.discardDeck = []
-      } else {
-        console.log('game is over you loose')
+        console.log(player.discardDeck.length)
+      } else if (player.deck.length === 0) {
+        if (player.discardDeck.length < 1) {
+          console.log('game is over you loose')
+        } else {
+          console.log('Shuffling deck into deck')
+          player.deck.push.apply(player.deck, player.discardDeck)
+
+          player.discardDeck = []
+        }
       }
     },
     async flipCards (discardPile) {
